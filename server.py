@@ -34,7 +34,7 @@ class MainHandler(tornado.web.RequestHandler):
             url_list[url_list_key]=url
             json.dump(url_list,open("urllist.json" , "w"))
             self.render("form.html",url_list_math=len(url_list),url_short="http://www.mizikaku.ga/s?k="+url_list_key)
-            class ShortServiceHandler(tornado.web.RequestHandler):
+class ShortServiceHandler(tornado.web.RequestHandler):
     def get(self):
         key = self.get_argument('k', 'None')
         if key == "None":
@@ -49,8 +49,7 @@ class MainHandler(tornado.web.RequestHandler):
                 self.write("存在しない短縮URLです。")
 def main():
     tornado.options.parse_command_line()
-    app = Application()
-    app.listen(options.port)
+    Application().listen(options.port)
     tornado.ioloop.IOLoop.instance().start()
 if __name__ == "__main__":
     main()
