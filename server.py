@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import tornado.ioloop,tornado.web,tornado.escape,tornado.options
 from tornado.options import define, options
 import os,string,random,json
