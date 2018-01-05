@@ -9,6 +9,7 @@ class Application(tornado.web.Application):
         handlers = [
             (r'/', MainHandler),
             (r'/s', ShortServiceHandler),
+            (r'/api', apiHandler),
             (r'/(favicon.ico)', tornado.web.StaticFileHandler, {"path": "/static/favicon.ico"}),
             (r'/(robots.txt)', tornado.web.StaticFileHandler, {"path": "/static/robots.txt"}),
         ]
@@ -46,6 +47,20 @@ class ShortServiceHandler(tornado.web.RequestHandler):
                     self.write("転送中にエラーが発生しました。存在しないURLです。")
             else:
                 self.write("存在しない短縮URLです。")
+class apiHandler(tornado.web.RequestHandler):
+    def get(self):
+        url = self.get_argument('url', 'None')
+        if url == "None":
+            self.write("{'CODE':'500','RETURN':'NOTHING_URL_REQUEST'}")
+        else:
+            if url in url_list.values():
+                url_list_key = list(url_list.keys())[list(url_list.values()).index(url)]
+                self.write("{'CODE':'200','RETURN':'"+url_list_key+"'}")
+            else:
+                url_list_key = ''.join([random.choice(string.ascii_letters + string.digits) for i in range(8)])
+                url_list[url_list_key]=url
+                json.dump(url_list,open("urllist.json" , "w"))
+                self.write("{'CODE':'200','RETURN':'"+url_list_key+"'}")
 def main():
     tornado.options.parse_command_line()
     Application().listen(options.port)
