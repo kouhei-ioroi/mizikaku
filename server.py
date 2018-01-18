@@ -22,10 +22,9 @@ class Application(tornado.web.Application):
             debug=True,
             )
         tornado.web.Application.__init__(self, handlers, **settings)
-
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
-        self.render("form.html",url_list_math=len(url_list),url_short="短縮結果が返されます。")
+        self.render("form.html",url_list_math=len(url_list),url_short="")
     def post(self):
         url = self.get_argument("element_1")
         if url in url_list.values():
