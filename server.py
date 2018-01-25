@@ -2,7 +2,7 @@ import tornado.ioloop,tornado.web,tornado.escape,tornado.options
 from tornado.options import define, options
 import os,string,random,json
 url_list = json.load(open("urllist.json" , "r"))
-define("port", default=80, type=int)
+define("port", default=8080, type=int)
 options.parse_command_line()
 class Application(tornado.web.Application):
     def __init__(self):
@@ -22,19 +22,20 @@ class Application(tornado.web.Application):
             debug=True,
             )
         tornado.web.Application.__init__(self, handlers, **settings)
+
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
-        self.render("form.html",url_list_math=len(url_list),url_short="")
+        self.render("form.html",url_list_math=len(url_list),url_short="短縮結果が返されます。")
     def post(self):
         url = self.get_argument("element_1")
         if url in url_list.values():
             url_list_key = list(url_list.keys())[list(url_list.values()).index(url)]
-            self.render("form.html",url_list_math=len(url_list),url_short="http://mzkk.ga/"+url_list_key)
+            self.render("form.html",url_list_math=len(url_list),url_short="https://mzkk.ga/"+url_list_key)
         else:
             url_list_key = ''.join([random.choice(string.ascii_letters + string.digits) for i in range(8)])
             url_list[url_list_key]=url
             json.dump(url_list,open("urllist.json" , "w"))
-            self.render("form.html",url_list_math=len(url_list),url_short="http://mzkk.ga/"+url_list_key)
+            self.render("form.html",url_list_math=len(url_list),url_short="https://mzkk.ga/"+url_list_key)
 class DirectShortServiceHandler(tornado.web.RequestHandler):
         def get(self):
             key = self.request.path[1:]
