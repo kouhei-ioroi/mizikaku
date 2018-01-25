@@ -25,17 +25,17 @@ class Application(tornado.web.Application):
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
-        self.render("form.html",url_list_math=len(url_list),url_short="短縮結果が返されます。")
+        self.render("form.html",url_list_math=len(url_list),last_url_list_math=218340105584896-len(url_list),url_short="短縮結果が返されます。")
     def post(self):
         url = self.get_argument("element_1")
         if url in url_list.values():
             url_list_key = list(url_list.keys())[list(url_list.values()).index(url)]
-            self.render("form.html",url_list_math=len(url_list),url_short="https://mzkk.ga/"+url_list_key)
+            self.render("form.html",url_list_math=len(url_list),last_url_list_math=218340105584896-len(url_list),url_short="https://mzkk.ga/"+url_list_key)
         else:
             url_list_key = ''.join([random.choice(string.ascii_letters + string.digits) for i in range(8)])
             url_list[url_list_key]=url
             json.dump(url_list,open("urllist.json" , "w"))
-            self.render("form.html",url_list_math=len(url_list),url_short="https://mzkk.ga/"+url_list_key)
+            self.render("form.html",url_list_math=len(url_list),last_url_list_math=218340105584896-len(url_list),url_short="https://mzkk.ga/"+url_list_key)
 class DirectShortServiceHandler(tornado.web.RequestHandler):
         def get(self):
             key = self.request.path[1:]
