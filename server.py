@@ -1,7 +1,10 @@
 import tornado.ioloop,tornado.web,tornado.escape,tornado.options
 from tornado.options import define, options
 import os,string,random,json
-url_list = json.load(open("urllist.json" , "r"))
+try:
+    url_list = json.load(open("urllist.json" , "r"))
+except:
+    url_list = {}
 define("port", default=8080, type=int)
 options.parse_command_line()
 class Application(tornado.web.Application):
