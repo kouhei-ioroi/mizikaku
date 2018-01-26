@@ -53,10 +53,7 @@ class ShortServiceHandler(tornado.web.RequestHandler):
             self.write("引数が不足しています。")
         else:
             if key in url_list:
-                try:
-                    self.redirect(url_list[key])
-                except:
-                    self.write("転送中にエラーが発生しました。存在しないURLです。")
+                self.redirect(url_list[key])
             else:
                 self.write("存在しない短縮URLです。")
 class apiHandler(tornado.web.RequestHandler):
