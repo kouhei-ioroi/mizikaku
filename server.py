@@ -78,6 +78,8 @@ class ReturnNothingServiceHandler(tornado.web.RequestHandler):
     def get(self):
         self.write("存在しない短縮URLです。")
 class wsHandler(tornado.websocket.WebSocketHandler):
+    def check_origin(self, origin):
+        return True
     def open(self):
         pass
     def on_message(self, message):

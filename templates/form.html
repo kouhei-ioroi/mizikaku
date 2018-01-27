@@ -11,8 +11,8 @@
 
   gtag('config', 'UA-111332416-1');
 </script>
-<script language="javascript">
-	var ws = new WebSocket("ws://"+window.location.hostname+":"+window.location.port+"/ws");
+<script>
+ws = new WebSocket("wss://"+window.location.host+"/ws");
 ws.onopen = function() {
 alert("WebSocketモードで接続しています。");
 };
