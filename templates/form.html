@@ -11,7 +11,15 @@
 
   gtag('config', 'UA-111332416-1');
 </script>
-
+<script language="javascript">
+	var ws = new WebSocket("ws://"+window.location.hostname+":"+window.location.port+"/ws");
+ws.onopen = function() {
+alert("WebSocketモードで接続しています。");
+};
+ws.onmessage = function (evt) {
+document.getElementsByName("element_2")[0].value = evt.data
+	};
+</script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>短く.ga</title>
@@ -25,7 +33,7 @@
 	<div id="form_container">
 
 		<h1><a>短く.ga</a></h1>
-		<form id="form_64083" class="appnitro"  method="post" action="/">
+		<form id="form_64083" class="appnitro">
 			<div class="form_description">
 			<h2>短く.ga</h2>
 			<p>短く.gaは個人によるURL短縮サービスです。</p>
@@ -48,7 +56,7 @@
 		</li>
 
 					<li class="buttons">
-				<input id="saveForm" class="button_text" type="submit" name="submit" value="短縮！" />
+				<input id="saveForm" class="button_text" type="button" name="submit" value="短縮！" onclick=ws.send("url:"+document.getElementById("element_1").value); />
 		</li>
 			</ul>
 		</form>
