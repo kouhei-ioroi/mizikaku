@@ -1,17 +1,55 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<script type="text/javascript" src="{{ static_url("wsclient.js") }}"></script>
-<script type="text/javascript" src="{{ static_url("cc.js") }}"></script>
+		<meta name="google-site-verification" content="0d7nQud42F-6npGpl106FHHZA3nZM-g7AeJMDOfL5Sc" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-111332416-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-111332416-1');
+</script>
+<script>
+	var url = "wss://"+window.location.host+"/ws";
+	var websocket = null;
+	function init(){open()}
+	function open(){
+		if (websocket == null){
+			websocket=new WebSocket(url);
+			websocket.onopen=onOpen;
+			websocket.onmessage=onMessage;
+			websocket.onclose=onClose;
+			websocket.onerror=onError;}
+			}
+	function onOpen(event){}
+	function onMessage(event){
+		document.getElementsByName("element_2")[0].value = event.data
+	}
+	function onError(event){}
+	function onClose(event){
+		websocket = null;
+		open();
+	}
+	function clipboadCopy(elementid){
+		elementid.select();
+		document.execCommand("copy");
+	}
+open()
+</script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>短く.ga</title>
 <link rel="stylesheet" type="text/css" href="{{ static_url("view.css") }}" media="all">
 <script type="text/javascript" src="{{ static_url("view.js") }}"></script>
+
 </head>
 <body id="main_body" >
+
 	<img id="top" src="{{ static_url("top.png") }}" alt="">
 	<div id="form_container">
+
 		<h1><a>短く.ga</a></h1>
 		<form id="form_64083" class="appnitro">
 			<div class="form_description">
@@ -21,6 +59,7 @@
 			<p>最新:WebSocket(セキュア)に対応<br>2017/12/19 サービス開始</p>
 		</div>
 			<ul >
+
 					<li id="li_1" >
 		<label class="description" for="element_1">URL </label>
 		<div>
@@ -32,6 +71,7 @@
 			<a href="javascript:void(0)"onclick=clipboadCopy(document.getElementById("element_2"))>結果をコピー</a>
 		</div>
 		</li>
+
 					<li class="buttons">
 				<input id="saveForm" class="button_text" type="button" name="submit" value="短縮！" onclick=websocket.send("url:"+document.getElementById("element_1").value); />
 		</li>
