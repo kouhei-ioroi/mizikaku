@@ -11,7 +11,6 @@ class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
             (r'/', MainHandler),
-            (r'/s', ShortServiceHandler),
             (r'/api', apiHandler),
             (r'/ws', wsHandler),
             (r'/(favicon.ico)', tornado.web.StaticFileHandler, {"path": "/static/favicon.ico"}),
@@ -29,17 +28,7 @@ class Application(tornado.web.Application):
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
-        self.render("form.html",url_list_math=len(url_list),last_url_list_math=218340105584896-len(url_list),url_short="短縮結果が返されます。")
-    def post(self):
-        url = self.get_argument("element_1")
-        if url in url_list.values():
-            url_list_key = list(url_list.keys())[list(url_list.values()).index(url)]
-            self.render("form.html",url_list_math=len(url_list),last_url_list_math=218340105584896-len(url_list),url_short="https://mzkk.ga/"+url_list_key)
-        else:
-            url_list_key = ''.join([random.choice(string.ascii_letters + string.digits) for i in range(8)])
-            url_list[url_list_key]=url
-            json.dump(url_list,open("urllist.json" , "w"))
-            self.render("form.html",url_list_math=len(url_list),last_url_list_math=218340105584896-len(url_list),url_short="https://mzkk.ga/"+url_list_key)
+        self.render("form.html")
 class DirectShortServiceHandler(tornado.web.RequestHandler):
         def get(self):
             key = self.request.path[1:]
@@ -48,16 +37,6 @@ class DirectShortServiceHandler(tornado.web.RequestHandler):
                     self.redirect(url_list[key])
                 except:
                     self.write("転送中にエラーが発生しました。存在しないURLです。")
-            else:
-                self.write("存在しない短縮URLです。")
-class ShortServiceHandler(tornado.web.RequestHandler):
-    def get(self):
-        key = self.get_argument('k', 'None')
-        if key == "None":
-            self.write("引数が不足しています。")
-        else:
-            if key in url_list:
-                self.redirect(url_list[key])
             else:
                 self.write("存在しない短縮URLです。")
 class apiHandler(tornado.web.RequestHandler):
@@ -76,7 +55,7 @@ class apiHandler(tornado.web.RequestHandler):
                 self.write('{"code":"200","id":'+url_list_key+'","message":"OK"}')
 class ReturnNothingServiceHandler(tornado.web.RequestHandler):
     def get(self):
-        self.write("存在しない短縮URLです。")
+        self.write("存在しない短縮URLです。(/k=系のURLは/k=を削除すれば使用できます。)")
 class wsHandler(tornado.websocket.WebSocketHandler):
     def check_origin(self, origin):
         return True

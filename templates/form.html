@@ -12,15 +12,31 @@
   gtag('config', 'UA-111332416-1');
 </script>
 <script>
-ws = new WebSocket("wss://"+window.location.host+"/ws");
-ws.onmessage = function (evt) {
-document.getElementsByName("element_2")[0].value = evt.data
-	};
-var clipboadCopy = function(){
-var urltext =document.getElementsByName("element_2")[0];
-urltext.select();
-document.execCommand("copy");
-}
+	var url = "wss://"+window.location.host+"/ws";
+	var websocket = null;
+	function init(){open()}
+	function open(){
+		if (websocket == null){
+			websocket=new WebSocket(url);
+			websocket.onopen=onOpen;
+			websocket.onmessage=onMessage;
+			websocket.onclose=onClose;
+			websocket.onerror=onError;}
+			}
+	function onOpen(event){}
+	function onMessage(event){
+		document.getElementsByName("element_2")[0].value = event.data
+	}
+	function onError(event){}
+	function onClose(event){
+		websocket = null;
+		open();
+	}
+	function clipboadCopy(elementid){
+		elementid.select();
+		document.execCommand("copy");
+	}
+open()
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -40,8 +56,6 @@ document.execCommand("copy");
 			<h2>短く.ga</h2>
 			<p>短く.gaは個人によるURL短縮サービスです。</p>
 			<p>言語:Python フレームワーク:Tornado <br>製作時間:1時間 作成者:<a href="https://mzkk.ga/Ssqi6TTR" target="_blank">Kohe_Ioroi</a></p>
-			<p>今までに短縮されたURL数:{{ url_list_math }}
-			<br>残り発行可能URL数:{{ last_url_list_math }}</p>
 			<p>最新:WebSocket(セキュア)に対応<br>2017/12/19 サービス開始</p>
 		</div>
 			<ul >
@@ -53,13 +67,13 @@ document.execCommand("copy");
 		</div>
 		<label class="description" for="element_1">結果 </label>
 		<div>
-			<input id="element_1" name="element_2" class="element text large" type="text" value="{{ url_short }}" placeholder="短縮結果" readonly="readonly" onclick=/>
-			<a href="javascript:void(0)"onclick="clipboadCopy()">結果をコピー</a>
+			<input id="element_2" name="element_2" class="element text large" type="text" value="" placeholder="短縮結果" readonly="readonly" onclick=/>
+			<a href="javascript:void(0)"onclick=clipboadCopy(document.getElementById("element_2"))>結果をコピー</a>
 		</div>
 		</li>
 
 					<li class="buttons">
-				<input id="saveForm" class="button_text" type="button" name="submit" value="短縮！" onclick=ws.send("url:"+document.getElementById("element_1").value); />
+				<input id="saveForm" class="button_text" type="button" name="submit" value="短縮！" onclick=websocket.send("url:"+document.getElementById("element_1").value); />
 		</li>
 			</ul>
 		</form>
