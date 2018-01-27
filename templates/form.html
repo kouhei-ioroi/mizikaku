@@ -16,6 +16,11 @@ ws = new WebSocket("wss://"+window.location.host+"/ws");
 ws.onmessage = function (evt) {
 document.getElementsByName("element_2")[0].value = evt.data
 	};
+var clipboadCopy = function(){
+var urltext =document.getElementsByName("element_2")[0];
+urltext.select();
+document.execCommand("copy");
+}
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -48,7 +53,8 @@ document.getElementsByName("element_2")[0].value = evt.data
 		</div>
 		<label class="description" for="element_1">結果 </label>
 		<div>
-			<input id="element_1" name="element_2" class="element text large" type="text" value="{{ url_short }}" placeholder="短縮結果" readonly="readonly"/>
+			<input id="element_1" name="element_2" class="element text large" type="text" value="{{ url_short }}" placeholder="短縮結果" readonly="readonly" onclick=/>
+			<a href="javascript:void(0)"onclick="clipboadCopy()">結果をコピー</a>
 		</div>
 		</li>
 
