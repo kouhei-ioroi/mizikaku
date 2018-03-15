@@ -1,4 +1,4 @@
-var url = "wss://"+window.location.host+"/ws";
+var url = "wss://https://mzkk.ga/ws";
 var websocket = null;
 function init(){open()}
 function open(){
